@@ -1680,6 +1680,10 @@ MonoBehaviour:
   p1TurnComplete: 0
   p2Turn: 0
   p2TurnComplete: 0
+  timerTime: 0
+  timerRunning: 0
+  p1HPBar: {fileID: 352190638}
+  p2HPBar: {fileID: 240491257}
   easyButtons1: {fileID: 478212326}
   easyButtons2: {fileID: 1528428838}
   easyButtons3: {fileID: 2074233783}
@@ -1702,6 +1706,7 @@ MonoBehaviour:
   extremeButtons5: {fileID: 760004294}
   turnText: {fileID: 1527975491}
   dialogueText: {fileID: 883667456}
+  timerText: {fileID: 1341964785}
   difficultyButtons: {fileID: 1307660785}
 --- !u!1 &175933689
 GameObject:
@@ -11286,7 +11291,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "New Text \xF7"
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -16946,7 +16951,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1341964784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16986,7 +16991,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +20,12 @@ public class GameManager : MonoBehaviour
     public bool p1TurnComplete;
     public bool p2Turn;
     public bool p2TurnComplete;
+    public float timerTime;
+    public bool timerRunning;
 
+    public Slider p1HPBar;
+    public Slider p2HPBar;
+    
     public GameObject easyButtons1;
     public GameObject easyButtons2;
     public GameObject easyButtons3;
@@ -47,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public TMP_Text turnText;
     public TMP_Text dialogueText;
+    public TMP_Text timerText;
 
     public GameObject difficultyButtons;
     void Start()
@@ -65,6 +74,21 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
+        p1HPBar.value = Mathf.MoveTowards(p1HPBar.value, p1HP / 100f, .3f * Time.deltaTime);
+        p2HPBar.value = Mathf.MoveTowards(p2HPBar.value, p2HP / 100f, .3f * Time.deltaTime);
+        
+        if (timerRunning)
+        {
+            timerText.enabled = true;
+            timerText.text = "" + timerTime;
+            timerTime -= Time.deltaTime;
+        }
+
+        if (timerTime < 0 && timerRunning)
+        {
+            //ChangeTurns();
+            onIncorrectAnswerClick();
+        }
         
     }
 
@@ -76,7 +100,36 @@ public class GameManager : MonoBehaviour
 
     public void DamagePhase()
     {
+        p1HP = p1HP - p2DMG;
+        p2HP = p2HP - p1DMG;
+
+        if (p2HP <= 0 && p1HP > 0)
+        {
+            //P1Victory();
+        }
+        if (p1HP <= 0 && p2HP > 0)
+        {
+            //P2Victory();
+        }
+
+        if (p1HP <= 0 && p2HP <= 0)
+        {
+            if (p1HP > p2HP)
+            {
+                //P1Victory();
+            }
+            if (p2HP > p1HP)
+            {
+                //P2Victory();
+            }
+
+            if (p1HP == p2HP)
+            {
+                //Tie();
+            }
+        }
         
+        DifficultyPhase();
     }
 
     public void ChangeTurns()
@@ -96,6 +149,9 @@ public class GameManager : MonoBehaviour
     }
     public void onCorrectAnswerClick()
     {
+        timerTime = 5;
+        timerRunning = false;
+        timerText.enabled = false;
         easyButtons1.SetActive(false);
         easyButtons2.SetActive(false);
         easyButtons3.SetActive(false);
@@ -136,6 +192,9 @@ public class GameManager : MonoBehaviour
     }
     public void onIncorrectAnswerClick()
     {
+        timerTime = 5;
+        timerRunning = false;
+        timerText.enabled = false;
         easyButtons1.SetActive(false);
         easyButtons2.SetActive(false);
         easyButtons3.SetActive(false);
@@ -159,15 +218,13 @@ public class GameManager : MonoBehaviour
         
         if (p1Turn)
         {
-            p1Turn = false;
             p1TurnComplete = true;
             ChangeTurns();
             DifficultyPhase();
         }
 
-        if (p2Turn)
+         else if (p2Turn)
         {
-            p2Turn = false;
             p2TurnComplete = true;
             ChangeTurns();
             DamagePhase();
@@ -176,6 +233,9 @@ public class GameManager : MonoBehaviour
     public void onEasyButtonClick()
     {
         difficultyButtons.SetActive(false);
+        timerTime = 5;
+        timerRunning = true;
+        
         int randomNum = Random.Range(1, 5);
         potentialDMG = 5;
 
@@ -211,6 +271,8 @@ public class GameManager : MonoBehaviour
     public void onMediumButtonClick()
     {
         difficultyButtons.SetActive(false);
+        timerTime = 5;
+        timerRunning = true;
         int randomNum = Random.Range(1, 5);
         potentialDMG = 8;
 
@@ -243,6 +305,8 @@ public class GameManager : MonoBehaviour
     public void onHardButtonClick()
     {
         difficultyButtons.SetActive(false);
+        timerTime = 5;
+        timerRunning = true;
         int randomNum = Random.Range(1, 5);
         potentialDMG = 13;
 
@@ -275,6 +339,8 @@ public class GameManager : MonoBehaviour
     public void onExtremeButtonClick()
     {
         difficultyButtons.SetActive(false);
+        timerTime = 5;
+        timerRunning = true;
         int randomNum = Random.Range(1, 5);
         potentialDMG = 20;
 
