@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
@@ -56,8 +57,12 @@ public class GameManager : MonoBehaviour
     public TMP_Text turnText;
     public TMP_Text dialogueText;
     public TMP_Text timerText;
+    public TMP_Text multiplierText;
 
     public GameObject difficultyButtons;
+    public GameObject p1VictoryScreen;
+    public GameObject p2VictoryScreen;
+    public GameObject tieScreen;
     void Start()
     {
         p1Turn = true;
@@ -67,6 +72,7 @@ public class GameManager : MonoBehaviour
         p1DMG = 0;
         p2DMG = 0;
         multiplier = 1;
+        turnText.color = Color.blue;
         
         DifficultyPhase();
 
@@ -76,11 +82,12 @@ public class GameManager : MonoBehaviour
     {
         p1HPBar.value = Mathf.MoveTowards(p1HPBar.value, p1HP / 100f, .3f * Time.deltaTime);
         p2HPBar.value = Mathf.MoveTowards(p2HPBar.value, p2HP / 100f, .3f * Time.deltaTime);
+        multiplierText.text = "x" + multiplier + " DMG";
         
         if (timerRunning)
         {
             timerText.enabled = true;
-            timerText.text = "" + timerTime;
+            timerText.text = "" + Mathf.Round(timerTime);
             timerTime -= Time.deltaTime;
         }
 
@@ -103,29 +110,31 @@ public class GameManager : MonoBehaviour
         p1HP = p1HP - p2DMG;
         p2HP = p2HP - p1DMG;
 
+        multiplier = multiplier + 1;
+
         if (p2HP <= 0 && p1HP > 0)
         {
-            //P1Victory();
+            P1Victory();
         }
         if (p1HP <= 0 && p2HP > 0)
         {
-            //P2Victory();
+            P2Victory();
         }
 
         if (p1HP <= 0 && p2HP <= 0)
         {
             if (p1HP > p2HP)
             {
-                //P1Victory();
+                P1Victory();
             }
             if (p2HP > p1HP)
             {
-                //P2Victory();
+                P2Victory();
             }
 
             if (p1HP == p2HP)
             {
-                //Tie();
+                Tie();
             }
         }
         
@@ -139,12 +148,14 @@ public class GameManager : MonoBehaviour
             p1Turn = false;
             p2Turn = true;
             turnText.text = "P2 Turn";
+            turnText.color = Color.yellow;
         }
         else if (p2Turn == true)
         {
             p2Turn = false;
             p1Turn = true;
             turnText.text = "P1 Turn";
+            turnText.color = Color.blue;
         }
     }
     public void onCorrectAnswerClick()
@@ -190,6 +201,21 @@ public class GameManager : MonoBehaviour
         }
         
     }
+
+    public void P1Victory()
+    {
+        p1VictoryScreen.SetActive(true);
+    }
+
+    public void P2Victory()
+    {
+        p2VictoryScreen.SetActive(true);
+    }
+
+    public void Tie()
+    {
+        tieScreen.SetActive(true);
+    }
     public void onIncorrectAnswerClick()
     {
         timerTime = 5;
@@ -219,6 +245,7 @@ public class GameManager : MonoBehaviour
         if (p1Turn)
         {
             p1TurnComplete = true;
+            p1DMG = 0;
             ChangeTurns();
             DifficultyPhase();
         }
@@ -226,6 +253,7 @@ public class GameManager : MonoBehaviour
          else if (p2Turn)
         {
             p2TurnComplete = true;
+            p2DMG = 0;
             ChangeTurns();
             DamagePhase();
         }
@@ -369,5 +397,15 @@ public class GameManager : MonoBehaviour
             dialogueText.text = "What is 3498-1145?";
             extremeButtons5.SetActive(true);
         }
+    }
+
+    public void onRestartClick()
+    {
+        SceneManager.LoadScene("HotSeat");
+    }
+
+    public void onMainMenuClick()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
