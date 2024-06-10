@@ -100,6 +100,11 @@ public class AIManager : MonoBehaviour
             onIncorrectAnswerClick();
         }
         
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        
     }
 
     public void DifficultyPhase()
@@ -174,18 +179,26 @@ public class AIManager : MonoBehaviour
         QuestionDifficultyRoll = Random.Range(1, 5);
         if (QuestionDifficultyRoll == 1)
         {
+            dialogueText.text = "Player 2 selects Easy";
+            StartCoroutine(WaitForDifficultySelect());
             onEasyButtonClick();
         }
         else if (QuestionDifficultyRoll == 2)
         {
+            dialogueText.text = "Player 2 selects Medium";
+            StartCoroutine(WaitForDifficultySelect());
             onMediumButtonClick();
         }
         else if (QuestionDifficultyRoll == 3)
         {
+            dialogueText.text = "Player 2 selects Hard";
+            StartCoroutine(WaitForDifficultySelect());
             onHardButtonClick();
         }
         else if (QuestionDifficultyRoll == 4)
         {
+            dialogueText.text = "Player 2 selects Extreme";
+            StartCoroutine(WaitForDifficultySelect());
             onExtremeButtonClick();
         }
     }
@@ -226,6 +239,11 @@ public class AIManager : MonoBehaviour
                 onCorrectAnswerClick();
             }
         }
+    }
+
+    IEnumerator WaitForDifficultySelect()
+    {
+        yield return new WaitForSeconds(3);
     }
     public void onCorrectAnswerClick()
     {

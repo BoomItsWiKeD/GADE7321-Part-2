@@ -96,6 +96,11 @@ public class GameManager : MonoBehaviour
             //ChangeTurns();
             onIncorrectAnswerClick();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
         
     }
 
