@@ -76,9 +76,8 @@ public class AIManager : MonoBehaviour
         p2DMG = 0;
         multiplier = 1;
         turnText.color = Color.blue;
-        
+        Debug.Log("START");
         DifficultyPhase();
-
     }
     
     void Update()
@@ -103,13 +102,19 @@ public class AIManager : MonoBehaviour
         {
             SceneManager.LoadScene("MainMenu");
         }
-        
     }
 
     public void DifficultyPhase()
     {
-        dialogueText.text = "Select a difficulty at the bottom.";
-        difficultyButtons.SetActive(true);
+        if (p1Turn)
+        {
+            difficultyButtons.SetActive(true);
+            dialogueText.text = "Select a difficulty at the bottom.";
+        }
+        if (p2Turn)
+        {
+            dialogueText.text = "AI is selecting a difficulty";
+        }
     }
 
     public void DamagePhase()
@@ -144,7 +149,6 @@ public class AIManager : MonoBehaviour
                 Tie();
             }
         }
-        
         DifficultyPhase();
     }
 
@@ -186,27 +190,6 @@ public class AIManager : MonoBehaviour
             p1Turn = true;
             turnText.text = "P1 Turn";
             turnText.color = Color.blue;
-            
-            /*easyButtons1.SetActive(true);
-            easyButtons2.SetActive(true);
-            easyButtons3.SetActive(true);
-            easyButtons4.SetActive(true);
-            easyButtons5.SetActive(true);
-            mediumButtons1.SetActive(true);
-            mediumButtons2.SetActive(true);
-            mediumButtons3.SetActive(true);
-            mediumButtons4.SetActive(true);
-            mediumButtons5.SetActive(true);
-            hardButtons1.SetActive(true);
-            hardButtons2.SetActive(true);
-            hardButtons3.SetActive(true);
-            hardButtons4.SetActive(true);
-            hardButtons5.SetActive(true);
-            extremeButtons1.SetActive(true);
-            extremeButtons2.SetActive(true);
-            extremeButtons3.SetActive(true);
-            extremeButtons4.SetActive(true);
-            extremeButtons5.SetActive(true);*/
         }
     }
 
@@ -247,6 +230,28 @@ public class AIManager : MonoBehaviour
         }
 
         dialogueText.text = "AI is choosing an answer...";
+        
+        easyButtons1.SetActive(false);
+        easyButtons2.SetActive(false);
+        easyButtons3.SetActive(false);
+        easyButtons4.SetActive(false);
+        easyButtons5.SetActive(false);
+        mediumButtons1.SetActive(false);
+        mediumButtons2.SetActive(false);
+        mediumButtons3.SetActive(false);
+        mediumButtons4.SetActive(false);
+        mediumButtons5.SetActive(false);
+        hardButtons1.SetActive(false);
+        hardButtons2.SetActive(false);
+        hardButtons3.SetActive(false);
+        hardButtons4.SetActive(false);
+        hardButtons5.SetActive(false);
+        extremeButtons1.SetActive(false);
+        extremeButtons2.SetActive(false);
+        extremeButtons3.SetActive(false);
+        extremeButtons4.SetActive(false);
+        extremeButtons5.SetActive(false);
+        
         yield return new WaitForSeconds(2);
         AIAnswerSelect();
     }
@@ -291,8 +296,9 @@ public class AIManager : MonoBehaviour
 
     IEnumerator WaitForDifficultySelect()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(5);
     }
+    
     public void onCorrectAnswerClick()
     {
         timerTime = 5;
@@ -352,6 +358,7 @@ public class AIManager : MonoBehaviour
     {
         tieScreen.SetActive(true);
     }
+    
     public void onIncorrectAnswerClick()
     {
         timerTime = 5;
@@ -395,6 +402,7 @@ public class AIManager : MonoBehaviour
             DamagePhase();
         }
     }
+    
     public void onEasyButtonClick()
     {
         difficultyButtons.SetActive(false);
@@ -430,8 +438,6 @@ public class AIManager : MonoBehaviour
             easyButtons5.SetActive(true);
         }
     }
-
-    
     
     public void onMediumButtonClick()
     {
@@ -467,6 +473,7 @@ public class AIManager : MonoBehaviour
             mediumButtons5.SetActive(true);
         }
     }
+    
     public void onHardButtonClick()
     {
         difficultyButtons.SetActive(false);
@@ -501,6 +508,7 @@ public class AIManager : MonoBehaviour
             hardButtons5.SetActive(true);
         }
     }
+    
     public void onExtremeButtonClick()
     {
         difficultyButtons.SetActive(false);
