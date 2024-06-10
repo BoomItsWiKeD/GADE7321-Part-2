@@ -51,9 +51,6 @@ public class GameManager : MonoBehaviour
     public GameObject extremeButtons4;
     public GameObject extremeButtons5;
     
-    
-    
-
     public TMP_Text turnText;
     public TMP_Text dialogueText;
     public TMP_Text timerText;
